@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalForestWatch URL Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        #link a {
+            color: #007bff;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        #link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // Function to handle coordinates replacement and URL generation
+        function replaceCoordinates() {
+            const input = document.getElementById("inputCoordinates").value;
+            const [lat, lng] = input.split(",").map(Number); // Split the input and convert to numbers
+
+            if (!isNaN(lat) && !isNaN(lng)) {
+                // Original JSON string template
+                const jsonTemplate = {
+                    "center": {
+                        "lat": 24.114929201714187,
+                        "lng": 52.75786921447088
+                    },
+                    "zoom": 14,
+                    "basemap": {
+                        "value": "satellite",
+                        "color": "",
+                        "name": "planet_medres_normalized_analytic_2024-07_mosaic",
+                        "imageType": "analytic"
+                    },
+                    "datasets": [
+                        {
+                            "dataset": "key-biodiversity-areas",
+                            "opacity": 1,
+                            "visibility": true,
+                            "layers": ["key-biodiversity-areas-2019"]
+                        },
+                        {
+                            "dataset": "wdpa-protected-areas",
+                            "opacity": 1,
+                            "visibility": true,
+                            "layers": ["wdpa-protected-areas"]
+                        },
+                        {
+                            "dataset": "political-boundaries",
+                            "layers": ["disputed-political-boundaries", "political-boundaries"],
+                            "opacity": 1,
+                            "visibility": true
+                        }
+                    ]
+                };
+
+                // Replace the lat and lng in the JSON template
+                jsonTemplate.center.lat = lat;
+                jsonTemplate.center.lng = lng;
+
+                // Convert the modified JSON object to a string
+                const jsonString = JSON.stringify(jsonTemplate);
+
+                // Encode the JSON string to Base64
+                const base64Encoded = btoa(jsonString);
+
+                // Generate the final URL
+                const finalUrl = `https://www.globalforestwatch.org/map/?map=${base64Encoded}`;
+
+                // Copy the URL to the clipboard
+                navigator.clipboard.writeText(finalUrl).then(() => {
+                    document.getElementById("result").innerText = "URL copied to clipboard!";
+                    document.getElementById("link").innerHTML = `<a href="${finalUrl}" target="_blank">${finalUrl}</a>`;
+
+                    
+                    // After copying to clipboard, open the URL in a new tab
+                    window.open(finalUrl, '_blank');
+                }).catch(err => {
+                    document.getElementById("result").innerText = "Failed to copy URL: " + err;
+                });
+            } else {
+                document.getElementById("result").innerText = "Invalid input. Please enter valid coordinates.";
+            }
+        }
+
+        // Function to handle "Enter" key press for submitting coordinates
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                replaceCoordinates();
+            }
+        }
+
+        // Attach the event listener to handle keypress when the page loads
+        window.onload = function() {
+            document.getElementById("inputCoordinates").addEventListener("keypress", handleKeyPress);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>GlobalForestWatch URL Generator</h1>
+        <p>Creates the proper <a href="https://www.globalforestwatch.org/map/" target="_blank">GlobalForestWatch</a> URL based on Lat,Lng coordinates copied from <a href="https://maps.google.com" target="_blank">Google Maps.</a></p>
+        <input type="text" id="inputCoordinates" placeholder="Enter lat,lng coordinates">
+        <button onclick="replaceCoordinates()">Submit</button>
+        <p id="result"></p>
+        <p id="link"></p>
+    </div>
+</body>
+</html>
