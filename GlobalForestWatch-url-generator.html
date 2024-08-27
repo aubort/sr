@@ -18,8 +18,8 @@
         .container {
             background-color: #ffffff;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 400px;
             width: 100%;
@@ -77,6 +77,35 @@
         #link a:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 768px) {
+
+            body {
+                align-items: flex-start;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            input[type="text"] {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+
+
     </style>
     <script>
         // Function to handle coordinates replacement and URL generation
@@ -136,7 +165,7 @@
                 // Copy the URL to the clipboard
                 navigator.clipboard.writeText(finalUrl).then(() => {
                     document.getElementById("result").innerText = "URL copied to clipboard!";
-                    document.getElementById("link").innerHTML = `<a href="${finalUrl}" target="_blank">${finalUrl}</a>`;
+                    document.getElementById("link").value = `${finalUrl}`;
 
                     
                     // After copying to clipboard, open the URL in a new tab
@@ -179,7 +208,7 @@ tags.async=!0,tags.src="https://aubort.containers.piwik.pro/"+id+".js"+qPString,
         <input type="text" id="inputCoordinates" placeholder="Enter lat,lng coordinates">
         <button onclick="replaceCoordinates()">Submit</button>
         <p id="result"></p>
-        <p id="link"></p>
+        <input type="text" id="link" placeholder="">
     </div>
 </body>
 </html>
