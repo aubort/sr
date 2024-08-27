@@ -5,36 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GlobalForestWatch URL Generator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 700px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #555;
-            font-size: 14px;
-            margin-bottom: 20px;
+            padding-top: 1rem;
         }
 
         .input-group {
@@ -67,50 +51,18 @@
             background-color: #0056b3;
         }
 
-        #result {
-            margin-top: 20px;
-            color: #28a745;
-            font-weight: bold;
+        .search {
+            position: absolute;
+            top: 10px;
         }
 
-        #link a {
-            color: #007bff;
-            text-decoration: none;
-            word-break: break-all;
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
         }
 
-        #link a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-
-            body {
-                align-items: flex-start;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            p {
-                font-size: 14px;
-            }
-
-            input[type="text"] {
-                font-size: 14px;
-            }
-
-            button {
-                font-size: 14px;
-            }
-        }
-
-
+        
     </style>
     <script>
         // Function to handle coordinates replacement and URL generation
@@ -125,7 +77,7 @@
                         "lat": 24.114929201714187,
                         "lng": 52.75786921447088
                     },
-                    "zoom": 14,
+                    "zoom": 10,
                     "basemap": {
                         "value": "satellite",
                         "color": "",
@@ -135,20 +87,20 @@
                     "datasets": [
                         {
                             "dataset": "key-biodiversity-areas",
-                            "opacity": 1,
+                            "opacity": 0.5,
                             "visibility": true,
                             "layers": ["key-biodiversity-areas-2019"]
                         },
                         {
                             "dataset": "wdpa-protected-areas",
-                            "opacity": 1,
+                            "opacity": 0.5,
                             "visibility": true,
                             "layers": ["wdpa-protected-areas"]
                         },
                         {
                             "dataset": "political-boundaries",
                             "layers": ["disputed-political-boundaries", "political-boundaries"],
-                            "opacity": 1,
+                            "opacity": 0.3,
                             "visibility": true
                         }
                     ]
@@ -166,20 +118,24 @@
 
                 // Generate the final URL
                 const finalUrl = `https://www.globalforestwatch.org/map/?map=${base64Encoded}`;
+                const embedUrl = `https://www.globalforestwatch.org/embed/map/?map=${base64Encoded}`;
 
                 // Copy the URL to the clipboard
                 navigator.clipboard.writeText(finalUrl).then(() => {
-                    document.getElementById("result").innerText = "URL copied to clipboard!";
-                    document.getElementById("link").value = `${finalUrl}`;
+                    // document.getElementById("result").innerText = "URL copied to clipboard!";
+                    // document.getElementById("link").value = `${finalUrl}`;
 
-                    
+                    var input = document.getElementById('inputCoordinates').value;
+                    var iframe = document.querySelector('iframe');
+                    iframe.src = embedUrl;
+
                     // After copying to clipboard, open the URL in a new tab
-                    window.open(finalUrl, '_blank');
+                    // window.open(finalUrl, '_blank');
                 }).catch(err => {
-                    document.getElementById("result").innerText = "Failed to copy URL: " + err;
+                    // document.getElementById("result").innerText = "Failed to copy URL: " + err;
                 });
             } else {
-                document.getElementById("result").innerText = "Invalid input. Please enter valid coordinates.";
+                // document.getElementById("result").innerText = "Invalid input. Please enter valid coordinates.";
             }
         }
 
@@ -193,43 +149,28 @@
         // Attach the event listener to handle keypress when the page loads
         window.onload = function() {
             document.getElementById("inputCoordinates").addEventListener("keypress", handleKeyPress);
+            document.getElementById("inputCoordinates").focus
         }
 
         function copyLink() {
             var link = document.getElementById("link");
             link.select();
-            link.setSelectionRange(0, 99999); // For mobile devices
-
+            // link.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand("copy");
-
-            alert("Link copied to clipboard: " + link.value);
+            // alert("Link copied to clipboard: " + link.value);
         }
     </script>
 </head>
 <body>
-    <script type="text/javascript">
-(function(window, document, dataLayerName, id) {
-window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
-function stgCreateCookie(a,b,c){var d="";if(c){var e=new Date;e.setTime(e.getTime()+24*c*60*60*1e3),d="; expires="+e.toUTCString();f="; SameSite=Strict"}document.cookie=a+"="+b+d+f+"; path=/"}
-var isStgDebug=(window.location.href.match("stg_debug")||document.cookie.match("stg_debug"))&&!window.location.href.match("stg_disable_debug");stgCreateCookie("stg_debug",isStgDebug?1:"",isStgDebug?14:-1);
-var qP=[];dataLayerName!=="dataLayer"&&qP.push("data_layer_name="+dataLayerName),isStgDebug&&qP.push("stg_debug");var qPString=qP.length>0?("?"+qP.join("&")):"";
-tags.async=!0,tags.src="https://aubort.containers.piwik.pro/"+id+".js"+qPString,scripts.parentNode.insertBefore(tags,scripts);
-!function(a,n,i){a[n]=a[n]||{};for(var c=0;c<i.length;c++)!function(i){a[n][i]=a[n][i]||{},a[n][i].api=a[n][i].api||function(){var a=[].slice.call(arguments,0);"string"==typeof a[0]&&window[dataLayerName].push({event:n+"."+i+":"+a[0],parameters:[].slice.call(arguments,1)})}}(i[c])}(window,"ppms",["tm","cm"]);
-})(window, document, 'dataLayer', 'a2fd588c-ba1e-4b76-a04d-dd49b4bc4afc');
-</script>
+
     <div class="container">
-        <h1>GlobalForestWatch URL Generator</h1>
-        <p>Creates the proper <a href="https://www.globalforestwatch.org/map/" target="_blank">GlobalForestWatch</a> URL based on Lat,Lng coordinates copied from <a href="https://maps.google.com" target="_blank">Google Maps.</a></p>
-        <div class="input-group">
-            <input type="text" id="inputCoordinates" placeholder="Enter lat,lng coordinates">
-            <button onclick="replaceCoordinates()">Submit</button>
+        <div class="search">
+            <div class="input-group">
+                <input type="text" id="inputCoordinates" placeholder="Enter lat,lng coordinates">
+                <button onclick="replaceCoordinates()">Submit</button>
+            </div>
         </div>
-        <p id="result"></p>
-        <div class="input-group">
-            <input type="text" id="link" placeholder="">
-            <button onclick="copyLink()">Copy Link</button>
-        </div>
-        <iframe width="670" height="490" frameborder="0" src="https://www.globalforestwatch.org/embed/map/?map=eyJjZW50ZXIiOnsibGF0IjoxMSwibG5nIjoxMX0sInpvb20iOjE0LCJiYXNlbWFwIjp7InZhbHVlIjoic2F0ZWxsaXRlIiwiY29sb3IiOiIiLCJuYW1lIjoicGxhbmV0X21lZHJlc19ub3JtYWxpemVkX2FuYWx5dGljXzIwMjQtMDdfbW9zYWljIiwiaW1hZ2VUeXBlIjoiYW5hbHl0aWMifSwiZGF0YXNldHMiOlt7ImRhdGFzZXQiOiJrZXktYmlvZGl2ZXJzaXR5LWFyZWFzIiwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZSwibGF5ZXJzIjpbImtleS1iaW9kaXZlcnNpdHktYXJlYXMtMjAxOSJdfSx7ImRhdGFzZXQiOiJ3ZHBhLXByb3RlY3RlZC1hcmVhcyIsIm9wYWNpdHkiOjEsInZpc2liaWxpdHkiOnRydWUsImxheWVycyI6WyJ3ZHBhLXByb3RlY3RlZC1hcmVhcyJdfSx7ImRhdGFzZXQiOiJwb2xpdGljYWwtYm91bmRhcmllcyIsImxheWVycyI6WyJkaXNwdXRlZC1wb2xpdGljYWwtYm91bmRhcmllcyIsInBvbGl0aWNhbC1ib3VuZGFyaWVzIl0sIm9wYWNpdHkiOjEsInZpc2liaWxpdHkiOnRydWV9XX0%3D"></iframe>
+        <iframe src="https://www.globalforestwatch.org/embed/map/?map=eyJjZW50ZXIiOnsibGF0IjozOC42NDc0OTk3NDkxNzY3MjQsImxuZyI6LTMuMDg2NDcwNjExNTkwODQyfSwiem9vbSI6My44MDYxODc0ODE2MDYxNjgzLCJkYXRhc2V0cyI6W3siZGF0YXNldCI6IndkcGEtcHJvdGVjdGVkLWFyZWFzIiwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZSwibGF5ZXJzIjpbIndkcGEtcHJvdGVjdGVkLWFyZWFzIl19LHsiZGF0YXNldCI6ImtleS1iaW9kaXZlcnNpdHktYXJlYXMiLCJvcGFjaXR5IjoxLCJ2aXNpYmlsaXR5Ijp0cnVlLCJsYXllcnMiOlsia2V5LWJpb2RpdmVyc2l0eS1hcmVhcy0yMDE5Il19LHsiZGF0YXNldCI6InBvbGl0aWNhbC1ib3VuZGFyaWVzIiwibGF5ZXJzIjpbImRpc3B1dGVkLXBvbGl0aWNhbC1ib3VuZGFyaWVzIiwicG9saXRpY2FsLWJvdW5kYXJpZXMiXSwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZX1dLCJsYWJlbCI6ImRlZmF1bHQifQ%3D%3D" width="100%" height="100vh" frameBorder="0" />
     </div>
 </body>
 </html>
