@@ -3,29 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalForestWatch URL Generator</title>
+    <title>SRM Area Check</title>
     <style>
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
         }
         .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding-top: 1rem;
+            position: relative;
+            height: 100%;
+            width: 100%;
         }
 
         .input-group {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .input-group input[type="text"] {
@@ -35,6 +31,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-right: 10px;
+            width:400px;
         }
 
         .input-group button {
@@ -53,15 +50,19 @@
 
         .search {
             position: absolute;
-            top: 10px;
+            top: 60px;
+            left: 100px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        iframe {
-            width: 100vw;
-            height: 100vh;
+        #mapFrame {
+            height: 100%;
+            width: 100%;
             border: none;
+            top:-10px;
         }
-
         
     </style>
     <script>
@@ -123,9 +124,9 @@
                 // Copy the URL to the clipboard
                 navigator.clipboard.writeText(finalUrl).then(() => {
                     // document.getElementById("result").innerText = "URL copied to clipboard!";
-                    // document.getElementById("link").value = `${finalUrl}`;
+                    document.getElementById("finalUrl").value = `${finalUrl}`;
 
-                    var input = document.getElementById('inputCoordinates').value;
+                    // var input = document.getElementById('inputCoordinates').value;
                     var iframe = document.querySelector('iframe');
                     iframe.src = embedUrl;
 
@@ -149,7 +150,7 @@
         // Attach the event listener to handle keypress when the page loads
         window.onload = function() {
             document.getElementById("inputCoordinates").addEventListener("keypress", handleKeyPress);
-            document.getElementById("inputCoordinates").focus
+            document.getElementById("inputCoordinates").focus();
         }
 
         function copyLink() {
@@ -159,6 +160,7 @@
             document.execCommand("copy");
             // alert("Link copied to clipboard: " + link.value);
         }
+        
     </script>
 </head>
 <body>
@@ -169,8 +171,12 @@
                 <input type="text" id="inputCoordinates" placeholder="Enter lat,lng coordinates">
                 <button onclick="replaceCoordinates()">Submit</button>
             </div>
+            <div class="input-group">
+                <input type="text" id="finalUrl" placeholder="" >
+                <button onclick="copyLink()">Copy</button>
+            </div>
         </div>
-        <iframe src="https://www.globalforestwatch.org/embed/map/?map=eyJjZW50ZXIiOnsibGF0IjozOC42NDc0OTk3NDkxNzY3MjQsImxuZyI6LTMuMDg2NDcwNjExNTkwODQyfSwiem9vbSI6My44MDYxODc0ODE2MDYxNjgzLCJkYXRhc2V0cyI6W3siZGF0YXNldCI6IndkcGEtcHJvdGVjdGVkLWFyZWFzIiwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZSwibGF5ZXJzIjpbIndkcGEtcHJvdGVjdGVkLWFyZWFzIl19LHsiZGF0YXNldCI6ImtleS1iaW9kaXZlcnNpdHktYXJlYXMiLCJvcGFjaXR5IjoxLCJ2aXNpYmlsaXR5Ijp0cnVlLCJsYXllcnMiOlsia2V5LWJpb2RpdmVyc2l0eS1hcmVhcy0yMDE5Il19LHsiZGF0YXNldCI6InBvbGl0aWNhbC1ib3VuZGFyaWVzIiwibGF5ZXJzIjpbImRpc3B1dGVkLXBvbGl0aWNhbC1ib3VuZGFyaWVzIiwicG9saXRpY2FsLWJvdW5kYXJpZXMiXSwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZX1dLCJsYWJlbCI6ImRlZmF1bHQifQ%3D%3D" width="100%" height="100vh" frameBorder="0" />
+        <iframe id="mapFrame" src="https://www.globalforestwatch.org/embed/map/?map=eyJjZW50ZXIiOnsibGF0IjozOC42NDc0OTk3NDkxNzY3MjQsImxuZyI6LTMuMDg2NDcwNjExNTkwODQyfSwiem9vbSI6My44MDYxODc0ODE2MDYxNjgzLCJkYXRhc2V0cyI6W3siZGF0YXNldCI6IndkcGEtcHJvdGVjdGVkLWFyZWFzIiwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZSwibGF5ZXJzIjpbIndkcGEtcHJvdGVjdGVkLWFyZWFzIl19LHsiZGF0YXNldCI6ImtleS1iaW9kaXZlcnNpdHktYXJlYXMiLCJvcGFjaXR5IjoxLCJ2aXNpYmlsaXR5Ijp0cnVlLCJsYXllcnMiOlsia2V5LWJpb2RpdmVyc2l0eS1hcmVhcy0yMDE5Il19LHsiZGF0YXNldCI6InBvbGl0aWNhbC1ib3VuZGFyaWVzIiwibGF5ZXJzIjpbImRpc3B1dGVkLXBvbGl0aWNhbC1ib3VuZGFyaWVzIiwicG9saXRpY2FsLWJvdW5kYXJpZXMiXSwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZX1dLCJsYWJlbCI6ImRlZmF1bHQifQ%3D%3D" width="100%" height="100vh" frameBorder="0" />
     </div>
 </body>
 </html>
