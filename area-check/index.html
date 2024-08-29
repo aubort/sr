@@ -21,27 +21,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* margin-bottom: 20px; */
+            padding: 5px;
         }
 
         .input-group input[type="text"] {
             flex: 1;
-            padding: 10px;
+            padding: 7px;
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-right: 10px;
-            width:400px;
+            width:300px;
         }
 
         .input-group button {
-            padding: 10px 20px;
+            padding: 7px 20px;
             font-size: 14px;
             color: #fff;
             background-color: #007bff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            width:100px;
         }
 
         .input-group button:hover {
@@ -50,10 +51,10 @@
 
         .search {
             position: absolute;
-            top: 60px;
+            top: 50px;
             left: 100px;
             background: rgba(255, 255, 255, 0.8);
-            padding: 15px;
+            padding: 5px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -164,16 +165,25 @@
     </script>
 </head>
 <body>
-
+    <script type="text/javascript">
+        (function(window, document, dataLayerName, id) {
+        window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
+        function stgCreateCookie(a,b,c){var d="";if(c){var e=new Date;e.setTime(e.getTime()+24*c*60*60*1e3),d="; expires="+e.toUTCString();f="; SameSite=Strict"}document.cookie=a+"="+b+d+f+"; path=/"}
+        var isStgDebug=(window.location.href.match("stg_debug")||document.cookie.match("stg_debug"))&&!window.location.href.match("stg_disable_debug");stgCreateCookie("stg_debug",isStgDebug?1:"",isStgDebug?14:-1);
+        var qP=[];dataLayerName!=="dataLayer"&&qP.push("data_layer_name="+dataLayerName),isStgDebug&&qP.push("stg_debug");var qPString=qP.length>0?("?"+qP.join("&")):"";
+        tags.async=!0,tags.src="https://aubort.containers.piwik.pro/"+id+".js"+qPString,scripts.parentNode.insertBefore(tags,scripts);
+        !function(a,n,i){a[n]=a[n]||{};for(var c=0;c<i.length;c++)!function(i){a[n][i]=a[n][i]||{},a[n][i].api=a[n][i].api||function(){var a=[].slice.call(arguments,0);"string"==typeof a[0]&&window[dataLayerName].push({event:n+"."+i+":"+a[0],parameters:[].slice.call(arguments,1)})}}(i[c])}(window,"ppms",["tm","cm"]);
+        })(window, document, 'dataLayer', 'a2fd588c-ba1e-4b76-a04d-dd49b4bc4afc');
+    </script>
     <div class="container">
         <div class="search">
             <div class="input-group">
                 <input type="text" id="inputCoordinates" placeholder="Enter lat,lng coordinates">
-                <button onclick="replaceCoordinates()">Submit</button>
+                <button onclick="replaceCoordinates()">Search</button>
             </div>
             <div class="input-group">
                 <input type="text" id="finalUrl" placeholder="" >
-                <button onclick="copyLink()">Copy</button>
+                <button onclick="copyLink()">Copy link</button>
             </div>
         </div>
         <iframe id="mapFrame" src="https://www.globalforestwatch.org/embed/map/?map=eyJjZW50ZXIiOnsibGF0IjozOC42NDc0OTk3NDkxNzY3MjQsImxuZyI6LTMuMDg2NDcwNjExNTkwODQyfSwiem9vbSI6My44MDYxODc0ODE2MDYxNjgzLCJkYXRhc2V0cyI6W3siZGF0YXNldCI6IndkcGEtcHJvdGVjdGVkLWFyZWFzIiwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZSwibGF5ZXJzIjpbIndkcGEtcHJvdGVjdGVkLWFyZWFzIl19LHsiZGF0YXNldCI6ImtleS1iaW9kaXZlcnNpdHktYXJlYXMiLCJvcGFjaXR5IjoxLCJ2aXNpYmlsaXR5Ijp0cnVlLCJsYXllcnMiOlsia2V5LWJpb2RpdmVyc2l0eS1hcmVhcy0yMDE5Il19LHsiZGF0YXNldCI6InBvbGl0aWNhbC1ib3VuZGFyaWVzIiwibGF5ZXJzIjpbImRpc3B1dGVkLXBvbGl0aWNhbC1ib3VuZGFyaWVzIiwicG9saXRpY2FsLWJvdW5kYXJpZXMiXSwib3BhY2l0eSI6MSwidmlzaWJpbGl0eSI6dHJ1ZX1dLCJsYWJlbCI6ImRlZmF1bHQifQ%3D%3D" width="100%" height="100vh" frameBorder="0" />
